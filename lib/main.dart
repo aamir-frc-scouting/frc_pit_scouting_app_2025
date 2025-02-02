@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -96,13 +99,52 @@ class _MyHomePageState extends State<MyHomePage> {
   bool defenseValue = false;
   bool driveTeamSwitchValue = false;
   bool pictureValue = false;
-  final ScrollController scrollController = ScrollController(); // Step 1
+  final ScrollController scrollController = ScrollController();
+  late CameraController controller;
+  bool isCameraInitialized = false;
+  File? savedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeCamera();
+  }
+
+  Future<void> initializeCamera() async {
+    final cameras = await availableCameras();
+    controller = CameraController(cameras[0], ResolutionPreset.high);
+    await controller.initialize();
+    setState(() {
+      isCameraInitialized = true;
+    });
+  }
+
+  Future<void> captureAndSaveImage() async {
+    if (!controller.value.isInitialized) return;
+
+    final XFile image = await controller.takePicture();
+    final Directory dir = await getApplicationDocumentsDirectory();
+    final File newImage = File('${dir.path}/captured_image.jpg');
+
+    await File(image.path).copy(newImage.path);
+    setState(() {
+      savedImage = newImage;
+    });
+
+    print("Image saved at: ${newImage.path}");
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   void scrollToTop() {
     scrollController.animateTo(
-      0.0, // Go to the top (offset = 0)
-      duration: Duration(milliseconds: 500), // Smooth scroll
-      curve: Curves.easeInOut, // Smooth animation
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
     );
   }
 
@@ -986,6 +1028,26 @@ class _MyHomePageState extends State<MyHomePage> {
                               Text("Picture?"),
                             ],
                           ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          isCameraInitialized
+                              ? AspectRatio(
+                                  aspectRatio: controller.value.aspectRatio,
+                                  child: CameraPreview(controller),
+                                )
+                              : Center(child: CircularProgressIndicator()),
+                          ElevatedButton(
+                            onPressed: captureAndSaveImage,
+                            child: Text("Capture & Save Image"),
+                          ),
+                          savedImage != null
+                              ? Image.file(savedImage!)
+                              : Text("No image captured"),
                         ],
                       ),
                     ),
