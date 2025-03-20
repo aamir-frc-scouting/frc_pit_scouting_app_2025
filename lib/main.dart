@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,6 +99,39 @@ class _MyHomePageState extends State<MyHomePage> {
   bool pictureValue = false;
   final ScrollController scrollController = ScrollController();
 
+  bool showQRCode = false;
+
+  void showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmation'),
+        content: Text('Have you taken a screenshot of the QR Code?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              resetData();
+              // Perform the final action here
+            },
+            child: Text('Continue'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void generateQRCode() {
+    formatData();
+    setState(() {
+      showQRCode = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -117,7 +151,47 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void formatData() {
     setState(() {
-      data = "";
+      data = """
+      ${teamName.text}*
+      ${teamNumber.text}*
+      ${weight.text}*
+      ${dimensions.text}*
+      ${cycles.text}*
+      ${mechanisms.text}*
+      ${drivetrainMotors.text}*
+      ${hotswappable.text}*
+      ${climbTime.text}*
+      ${autoStart.text}*
+      ${visionTracking.text}*
+      ${programmingLanguage.text}*
+      ${autoInfo.text}*
+      ${bestAt.text}*
+      ${comments.text}*
+      $drivetrainValue*
+      $swerveValue*
+      $SDSValue*
+      $WCPValue*
+      $thriftyBotValue*
+      $troughValue*
+      $L2Value*
+      $L3Value*
+      $L4Value*
+      $netValue*
+      $processorValue*
+      $takeOffAlgaeValue*
+      $groundPickUpValue*
+      $stationPickUpValue*
+      $level*
+      $autoScoreAlgaeValue*
+      $autoScoreCoralValue*
+      $leaveValue*
+      $autoTakeOffAlgae*
+      $processorHPValue*
+      $stationHPValue*
+      $defenseValue*
+      $driveTeamSwitchValue*
+      $pictureValue
+    """;
     });
   }
 
@@ -163,38 +237,12 @@ class _MyHomePageState extends State<MyHomePage> {
       defenseValue = false;
       driveTeamSwitchValue = false;
       pictureValue = false;
+      showQRCode = false;
       scrollToTop();
     });
   }
 
-  void showConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Confirm Action"),
-          content: Text(
-              "Are you sure you want to save and clear all data? This action cannot be undone."),
-          actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                resetData(); // Call your function to clear data
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text("Confirm", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,10 +258,9 @@ class _MyHomePageState extends State<MyHomePage> {
             controller: scrollController,
             child: Column(children: [
               Card(
-                shadowColor: Colors.transparent,
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
+                  shadowColor: Colors.transparent,
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
@@ -1011,36 +1058,47 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50.0,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50.0,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.amber,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                              ),
+                              onPressed: generateQRCode,
+                              child: const Text(
+                                'Generate QR Below',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                          onPressed: () {
-                            showConfirmationDialog(context);
-                          },
-                          child: const Text(
-                            'Save and Clear Data',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
+                          if (showQRCode) ...[
+                            const SizedBox(height: 20),
+                            QrImageView(
+                              data: data,
+                              size: 200.0,
+                              version: QrVersions.auto,
+                              backgroundColor: Colors.white,
                             ),
-                          ),
-                        ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () => showConfirmationDialog(context),
+                              child: const Text('Next Team'),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(32.0),
-                    )
-                  ],
-                ),
-              ),
+                  ]))
             ])));
   }
 }
