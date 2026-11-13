@@ -17,9 +17,9 @@
 
 ## Background
 
-As a freshman on [FRC Team 1730 (Team Driven)](https://www.thebluealliance.com/team/1730/2025), I served as scout lead during the 2022 Rapid React season. Seniors Heath Crump and Caden Findlay led the scouting app that year — we made it to the Newton Division at the Houston Championship and reached Einstein. I learned everything about scouting strategy working under them.
+As a freshman on [FRC Team 1730 (Team Driven)](https://www.thebluealliance.com/team/1730/2022), I served as scout lead during the 2022 Rapid React season. Seniors Heath Crump and Caden Findlay led the scouting app that year — we won the [Newton Division](https://www.thebluealliance.com/event/2022new) at the Houston Championship and reached [Einstein](https://www.thebluealliance.com/event/2022cmptx). I learned everything about scouting strategy working under them.
 
-Sophomore year (2023), I became the solo developer, building the match scouting app in Java/Android with QR codes scanned into Excel. Junior year (2024), I kept it going and added a separate pit scouting app. Senior year (2025, this repo), I rewrote both apps in Dart/Flutter for cross-platform support. The QR workflow remained, but the data now flows into a Python/customtkinter intake app that writes to SQLite — so strategy questions become SQL queries instead of spreadsheet filters.
+Sophomore year (2023), I became the solo developer, building the match scouting app in Java/Android with QR codes scanned into Excel. Junior year (2024), I kept it going and added a separate pit scouting app. [Senior year (2025, this repo)](https://www.thebluealliance.com/team/1730/2025), I rewrote both apps in Dart/Flutter — one modern codebase with responsive layouts instead of Java XML tuned to one tablet size. The QR workflow remained, but the data now flows into a Python/customtkinter intake app that writes to SQLite — so strategy questions become SQL queries instead of spreadsheet filters.
 
 — [Aamir Abatiyow](https://github.com/AamirAbatiyow)
 
@@ -44,7 +44,7 @@ Sophomore year (2023), I became the solo developer, building the match scouting 
 - **Detailed Drivetrain Analysis** — Cascading dropdowns for swerve modules (SDS L1–L4, WCP X/X2, REV, ThriftyBot variants)
 - **QR Code Export** — One-tap generation of scannable QR codes containing all scouted data
 - **Dark Theme UI** — Easy on the eyes in competition lighting with amber accents matching Team 1730's identity
-- **Cross-Platform** — Single Flutter codebase compiles for Android, iOS, web, and desktop
+- **Cross-Platform Codebase** — One Flutter codebase that can target Android, iOS, web, and desktop; used on Android tablets at events
 
 ## Usage Stats
 
@@ -138,7 +138,7 @@ The 2025 rewrite solved problems from the Java/Android era:
 
 | Challenge | 2024 Approach | 2025 Solution |
 |-----------|---------------|---------------|
-| Platform lock-in | Android-only Java app | Flutter compiles for Android, iOS, web, desktop |
+| Fixed layouts | Java XML layouts hand-tuned to one tablet size | Responsive Flutter layouts |
 | Manual data entry | Scan QR → paste into Excel tabs | Python intake app validates and writes to SQLite |
 | Ad-hoc queries | Filter/pivot in spreadsheet | SQL queries against normalized tables |
 
