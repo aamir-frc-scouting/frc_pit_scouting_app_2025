@@ -2,12 +2,12 @@
 
 <div align="center">
 
-[![Platform](https://img.shields.io/badge/Platform-Android_Tablets-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com/)
+[![Platform](https://img.shields.io/badge/Platform-Android_%7C_iOS-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://developer.android.com/)
 [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
 [![FRC](https://img.shields.io/badge/FRC-2025_Reefscape-0077C8?style=for-the-badge)](https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf)
 
-**Flutter pit scouting app that captures robot specifications as QR codes for offline data collection at FRC competitions. Used on Android tablets at events.**
+**Flutter pit scouting app that captures robot specifications as QR codes for offline data collection at FRC competitions. Deployed to every scout's own phone, Android or iOS.**
 
 [Features](#features) · [Screenshots](#screenshots) · [Architecture](#architecture) · [Usage Stats](#usage-stats) · [Build](#build-instructions)
 
@@ -34,7 +34,7 @@ Sophomore year (2023), I became the solo developer, building the match scouting 
   </tr>
 </table>
 
-<sub>Rendered at 10" portrait tablet size, the devices the team scouted on.</sub>
+<sub>Screenshots rendered at tablet size. In competition the app ran on scouts' own phones.</sub>
 </div>
 
 ## Features
@@ -44,7 +44,7 @@ Sophomore year (2023), I became the solo developer, building the match scouting 
 - **Detailed Drivetrain Analysis**: Cascading dropdowns for swerve modules (SDS L1–L4, WCP X/X2, REV, ThriftyBot variants)
 - **QR Code Export**: One-tap generation of scannable QR codes containing all scouted data
 - **Dark Theme UI**: Easy on the eyes in competition lighting with amber accents matching Team 1730's identity
-- **Flutter Codebase**: Flutter can target other platforms, and the app was used on Android tablets at events
+- **Flutter Codebase**: One codebase deployed to every scout's own phone, Android or iOS
 
 ## Usage Stats
 
@@ -86,7 +86,7 @@ flowchart LR
 
 ### Data Flow
 
-1. **Collect**: Scouts fill out the pit scouting form on Android tablets during competition
+1. **Collect**: Scouts fill out the pit scouting form on their own phones, Android or iOS, during competition
 2. **Export**: The app serializes all 39 fields into asterisk-delimited text and renders a QR code
 3. **Scan**: A volunteer scans each QR string into the text box of a Python/customtkinter intake app
 4. **Store**: Parser validates and inserts each record into SQLite
@@ -142,7 +142,7 @@ The 2025 rewrite solved problems from the Java/Android era:
 | Manual data entry | Scan QR into Excel tabs | Python intake app validates and writes to SQLite |
 | Ad-hoc queries | Filtering and pivot tables in Excel | SQL queries against two flat tables (match and pit) |
 
-QR codes stayed because competition WiFi is unreliable. Scouts show the QR code on the tablet, and a volunteer scans it into the intake app, so there is no network dependency during matches.
+QR codes stayed because competition WiFi is unreliable. Scouts show the QR code on their phone, and a volunteer scans it into the intake app, so there is no network dependency during matches.
 
 ## Tech Stack
 
