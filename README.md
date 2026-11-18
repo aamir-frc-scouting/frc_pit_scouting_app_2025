@@ -7,7 +7,7 @@
 [![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
 [![FRC](https://img.shields.io/badge/FRC-2025_Reefscape-0077C8?style=for-the-badge)](https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf)
 
-**Cross-platform pit scouting app that captures robot specifications as QR codes for offline data collection at FRC competitions.**
+**Flutter pit scouting app that captures robot specifications as QR codes for offline data collection at FRC competitions. Used on Android tablets at events.**
 
 [Features](#features) · [Screenshots](#screenshots) · [Architecture](#architecture) · [Usage Stats](#usage-stats) · [Build](#build-instructions)
 
@@ -17,11 +17,11 @@
 
 ## Background
 
-As a freshman on [FRC Team 1730 (Team Driven)](https://www.thebluealliance.com/team/1730/2022), I served as scout lead during the 2022 Rapid React season. Seniors Heath Crump and Caden Findlay led the scouting app that year — we won the [Newton Division](https://www.thebluealliance.com/event/2022new) at the Houston Championship and reached [Einstein](https://www.thebluealliance.com/event/2022cmptx). I learned everything about scouting strategy working under them.
+As a freshman on [FRC Team 1730 (Team Driven)](https://www.thebluealliance.com/team/1730/2022), I served as scout lead during the 2022 Rapid React season. Seniors Heath Crump and Caden Findlay led the scouting app that year, when we won the [Newton Division](https://www.thebluealliance.com/event/2022new) at the Houston Championship and reached [Einstein](https://www.thebluealliance.com/event/2022cmptx). I learned scouting strategy working under them.
 
-Sophomore year (2023), I became the solo developer, building the match scouting app in Java/Android with QR codes scanned into Excel. Junior year (2024), I kept it going and added a separate pit scouting app. [Senior year (2025, this repo)](https://www.thebluealliance.com/team/1730/2025), I rewrote both apps in Dart/Flutter — one modern codebase with responsive layouts instead of Java XML tuned to one tablet size. The QR workflow remained, but the data now flows into a Python/customtkinter intake app that writes to SQLite — so strategy questions become SQL queries instead of spreadsheet filters.
+Sophomore year (2023), I became the solo developer, building the match scouting app in Java/Android with QR codes scanned into Excel. Junior year (2024), I kept it going and added a separate pit scouting app. [Senior year (2025, this repo)](https://www.thebluealliance.com/team/1730/2025), I rewrote both apps in Dart/Flutter, with responsive layouts instead of fixed Java XML layouts. The QR workflow remained. From the Greater Kansas City Regional through Worlds, the data flowed into a Python/customtkinter intake app that writes to SQLite, so strategy questions became SQL queries instead of spreadsheet filters and pivot tables.
 
-— [Aamir Abatiyow](https://github.com/AamirAbatiyow)
+[Aamir Abatiyow](https://github.com/AamirAbatiyow)
 
 ## Screenshots
 
@@ -39,12 +39,12 @@ Sophomore year (2023), I became the solo developer, building the match scouting 
 
 ## Features
 
-- **39 Comprehensive Data Fields** — Captures team info, robot dimensions, drivetrain configuration, scoring capabilities, autonomous routines, and strategic preferences
-- **Reefscape-Specific Scoring** — Tracks all 2025 game elements: Coral placement (Trough, L2–L4), Algae handling (Net, Processor), and Barge climb levels (Park, Shallow, Deep)
-- **Detailed Drivetrain Analysis** — Cascading dropdowns for swerve modules (SDS L1–L4, WCP X/X2, REV, ThriftyBot variants)
-- **QR Code Export** — One-tap generation of scannable QR codes containing all scouted data
-- **Dark Theme UI** — Easy on the eyes in competition lighting with amber accents matching Team 1730's identity
-- **Cross-Platform Codebase** — One Flutter codebase that can target Android, iOS, web, and desktop; used on Android tablets at events
+- **39 Comprehensive Data Fields**: Captures team info, robot dimensions, drivetrain configuration, scoring capabilities, autonomous routines, and strategic preferences
+- **Reefscape-Specific Scoring**: Tracks all 2025 game elements: Coral placement (Trough, L2–L4), Algae handling (Net, Processor), and Barge climb levels (Park, Shallow, Deep)
+- **Detailed Drivetrain Analysis**: Cascading dropdowns for swerve modules (SDS L1–L4, WCP X/X2, REV, ThriftyBot variants)
+- **QR Code Export**: One-tap generation of scannable QR codes containing all scouted data
+- **Dark Theme UI**: Easy on the eyes in competition lighting with amber accents matching Team 1730's identity
+- **Flutter Codebase**: Flutter can target other platforms, and the app was used on Android tablets at events
 
 ## Usage Stats
 
@@ -86,11 +86,11 @@ flowchart LR
 
 ### Data Flow
 
-1. **Collect** — Scouts fill out the pit scouting form on Android tablets during competition
-2. **Export** — The app serializes all 39 fields into asterisk-delimited text and renders a QR code
-3. **Scan** — Scouting lead uses a Python/customtkinter app to scan QR codes via webcam
-4. **Store** — Parser validates and inserts each record into SQLite
-5. **Analyze** — Strategy questions become SQL queries against the local database
+1. **Collect**: Scouts fill out the pit scouting form on Android tablets during competition
+2. **Export**: The app serializes all 39 fields into asterisk-delimited text and renders a QR code
+3. **Scan**: A volunteer scans each QR string into the text box of a Python/customtkinter intake app
+4. **Store**: Parser validates and inserts each record into SQLite
+5. **Analyze**: Strategy questions become SQL queries against the local database
 
 ### QR Payload Schema (39 Fields)
 
@@ -138,11 +138,11 @@ The 2025 rewrite solved problems from the Java/Android era:
 
 | Challenge | 2024 Approach | 2025 Solution |
 |-----------|---------------|---------------|
-| Fixed layouts | Java XML layouts hand-tuned to one tablet size | Responsive Flutter layouts |
-| Manual data entry | Scan QR → paste into Excel tabs | Python intake app validates and writes to SQLite |
-| Ad-hoc queries | Filter/pivot in spreadsheet | SQL queries against normalized tables |
+| Fixed layouts | Fixed, non-responsive Java XML layouts | Responsive Flutter layouts |
+| Manual data entry | Scan QR into Excel tabs | Python intake app validates and writes to SQLite |
+| Ad-hoc queries | Filtering and pivot tables in Excel | SQL queries against two flat tables (match and pit) |
 
-QR codes stayed because competition WiFi is unreliable. Scouts generate, screenshot, and the scouting lead batch-processes later — no network dependency during matches.
+QR codes stayed because competition WiFi is unreliable. Scouts show the QR code on the tablet, and a volunteer scans it into the intake app, so there is no network dependency during matches.
 
 ## Tech Stack
 

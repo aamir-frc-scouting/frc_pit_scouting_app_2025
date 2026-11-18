@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Reefscape Pit Scouting App',
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
